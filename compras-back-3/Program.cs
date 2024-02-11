@@ -1,3 +1,4 @@
+using compras_back_3;
 using compras_back_3.Context;
 using compras_back_3.Repository.ArticuloRepository;
 using compras_back_3.Repository.ClienteRepository;
@@ -22,7 +23,16 @@ builder.Services.AddScoped<ITiendaService, TiendaService>();
 builder.Services.AddScoped<ITiendaRepository, TiendaRepository>();
 builder.Services.AddScoped<IArticuloService, ArticuloService>();
 builder.Services.AddScoped<IArticuloRepository, ArticuloRepository>();
-
+builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAnyOrigin",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
 
 var app = builder.Build();
 
@@ -36,7 +46,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors("AllowAnyOrigin");
+
 
 app.MapControllers();
-
+var Startup = new Startup();
+Startup.Configure(app);
 app.Run();

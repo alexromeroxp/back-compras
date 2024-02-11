@@ -27,9 +27,16 @@ namespace compras_back_3.Services.ClientesService
             await _clienteRepository.AddClienteAsync(cliente);
         }
 
-        public async Task UpdateClienteAsync(Cliente cliente)
+        public async Task<Cliente> GetClienteByNameAsync(string name)
         {
-            await _clienteRepository.UpdateClienteAsync(cliente);
+            return await _clienteRepository.GetClienteByNameAsync(name);
+
+        }
+
+
+        public async Task<int> UpdateClienteAsync(Cliente cliente)
+        {
+            return await _clienteRepository.UpdateClienteAsync(cliente);
         }
 
         public async Task DeleteClienteAsync(int id)

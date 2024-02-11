@@ -1,4 +1,5 @@
-﻿using compras_back_3.Models;
+﻿using compras_back_3.DTO;
+using compras_back_3.Models;
 using compras_back_3.Services.ClientesService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,8 +42,27 @@ namespace compras_back_3.Controllers
             return CreatedAtAction(nameof(GetClienteById), new { id = cliente.ClienteId }, cliente);
         }
 
+        [HttpPost("auth")]
+        public async Task<ActionResult<Cliente>> LoginCliente([FromBody] LoginDTO data)
+        {
+            if (string.IsNullOrEmpty(data.Nombre))
+            {
+                return BadRequest("El nombre no puede estar vacío");
+            }
+
+            var cliente = await _clienteService.GetClienteByNameAsync(data.Nombre);
+
+            if (cliente == null)
+            {
+                return NotFound("Cliente no encontrado");
+            }
+
+            return cliente;
+        }
+
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCliente(int id, Cliente cliente)
+        public async Task<ActionResult<int>> UpdateCliente(int id, Cliente cliente)
         {
             if (id != cliente.ClienteId)
             {
@@ -51,11 +71,11 @@ namespace compras_back_3.Controllers
 
             try
             {
-                await _clienteService.UpdateClienteAsync(cliente);
+                return await _clienteService.UpdateClienteAsync(cliente);
             }
             catch (Exception e)
             {
-               return BadRequest(e.Message);
+                return BadRequest(e.Message);
             }
 
             return NoContent();

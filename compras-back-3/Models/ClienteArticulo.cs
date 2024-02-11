@@ -19,6 +19,8 @@ namespace compras_back_3.Models
         [ForeignKey("ArticuloId")]
         public virtual Articulo? Articulo { get; set; }
 
+        public int Cantidad {get;set;}
+
         public DateTime Fecha { get; set; }
     }
 

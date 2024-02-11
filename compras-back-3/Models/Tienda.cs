@@ -9,6 +9,8 @@ namespace compras_back_3.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TiendaId { get; set; }
         public string Sucursal { get; set; }
-        public string Dirección { get; set; }
+        public string Direccion { get; set; }
+        public ICollection<Articulo>? Articulos { get; set; }
+
     }
 }

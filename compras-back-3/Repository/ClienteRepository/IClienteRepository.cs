@@ -6,8 +6,10 @@ namespace compras_back_3.Repository.ClienteRepository
     {
         Task<List<Cliente>> GetAllClientesAsync();
         Task<Cliente> GetClienteByIdAsync(int id);
+
+        Task<Cliente> GetClienteByNameAsync(string name);
         Task AddClienteAsync(Cliente cliente);
-        Task UpdateClienteAsync(Cliente cliente);
+        Task<int> UpdateClienteAsync(Cliente cliente);
         Task DeleteClienteAsync(int id);
 
         Task<List<ClienteArticulo>> GetAllClientesArticulosAsync();
